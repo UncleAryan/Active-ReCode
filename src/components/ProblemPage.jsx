@@ -74,7 +74,7 @@ function ProblemPage({ problem, userId, onBack }) {
     <div className="problem-page">
       
       <div className="problem-header">
-        <button className="back-btn" onClick={onBack}>← Back</button>
+        <button className="back-btn" onClick={onBack}>Back</button>
         <h2>{problem.title}</h2>
         <span className={problem.difficulty.toLowerCase()}>{problem.difficulty}</span>
       </div>

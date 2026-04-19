@@ -48,7 +48,7 @@ test('renders the problem description', () => {
 test('renders the Back button', () => {
   render(<ProblemPage problem={mockProblem} userId={1} onBack={vi.fn()} />)
 
-  expect(screen.getByText('← Back')).toBeInTheDocument()
+  expect(screen.getByText('Back')).toBeInTheDocument()
 })
 
 test('renders the Run button', () => {
