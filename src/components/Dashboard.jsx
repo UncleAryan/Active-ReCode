@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { storage } from '../logic/db'
 
 function Dashboard({ userId, problems, onSelectProblem }) {
@@ -36,7 +36,7 @@ function Dashboard({ userId, problems, onSelectProblem }) {
   return (
     <div className="dashboard">
       <div className="dashboard-header">
-        <h1>LeetCode Clone</h1>
+        <h1>Code Trainer</h1>
         <button
           className="begin-btn"
           onClick={() => onSelectProblem(problems[0])}
