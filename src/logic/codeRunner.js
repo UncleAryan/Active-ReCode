@@ -1,4 +1,13 @@
-// Safe Web Worker based code runner - supports any function name
+// Safe Web Worker based code runner
+
+/*
+How to use: call runUserCode with an object containing:
+- userCode: the JavaScript code provided by the user
+- functionName: the name of the function to test
+- testInput: the input to pass to the function
+- expectedOutput: the expected output of the function
+- timeoutMs: the maximum time (in milliseconds) to allow for execution
+*/
 
 export async function runUserCode({ 
   userCode, 
@@ -16,17 +25,16 @@ export async function runUserCode({
         const { userCode, functionName, testInput } = e.data;
 
         try {
-          // Dynamically call the function the user was supposed to implement
+          // fullCode is the user code plus a call to the function with the test input
           const fullCode = \`
             \${userCode}
-            
-            // Call the function with the test input
-            return \${functionName}(\${testInput});
+            // need to stringify testInput to handle strings, arrays, and objects correctly
+            return \${functionName}(\${JSON.stringify(testInput)});
           \`;
 
+          // here is where we execute fullCode and send the result back from the Web Worker via postMessage
           const userFunction = new Function(fullCode);
           const actualOutput = userFunction();
-
           self.postMessage({ 
             success: true, 
             actual: actualOutput 
@@ -40,6 +48,7 @@ export async function runUserCode({
       };
     `;
 
+    // blob and Web Worker setup
     const blob = new Blob([workerScript], { type: "application/javascript" });
     const worker = new Worker(URL.createObjectURL(blob));
 
@@ -50,6 +59,7 @@ export async function runUserCode({
       worker.terminate();
     };
 
+    // listen for messages from the worker (results of code execution)
     worker.onmessage = (e) => {
       cleanup();
       const timeTaken = (performance.now() - startTime).toFixed(2);
@@ -99,7 +109,7 @@ export async function runUserCode({
       });
     }, timeoutMs);
 
-    // Send data to the worker
+    // postMessage gives the Worker its input and starts execution
     worker.postMessage({ userCode, functionName, testInput });
   });
 }
