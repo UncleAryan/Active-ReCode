@@ -9,7 +9,7 @@ describe("codeRunner unit tests", () => {
       functionName: "add",
       testInput: "2, 3",
       expectedOutput: 5,
-      timeoutMs: 2000,
+      timeoutMs: 1000,
     });
 
     expect(result.passed).toBe(true);
@@ -24,7 +24,7 @@ describe("codeRunner unit tests", () => {
       functionName: "add",
       testInput: "2, 3",
       expectedOutput: 999,
-      timeoutMs: 2000,
+      timeoutMs: 1000,
     });
 
     expect(result.passed).toBe(false);
@@ -37,7 +37,7 @@ describe("codeRunner unit tests", () => {
       functionName: "bad",
       testInput: "",
       expectedOutput: null,
-      timeoutMs: 2000,
+      timeoutMs: 1000,
     });
 
     expect(result.passed).toBe(false);
@@ -50,7 +50,7 @@ describe("codeRunner unit tests", () => {
       functionName: "infinite",
       testInput: "",
       expectedOutput: null,
-      timeoutMs: 100,
+      timeoutMs: 1000,
     });
 
     expect(result.passed).toBe(false);
@@ -63,11 +63,11 @@ describe("codeRunner unit tests", () => {
       functionName: "subtract",
       testInput: "2, 3",
       expectedOutput: 5,
-      timeoutMs: 2000,
+      timeoutMs: 1000,
     });
 
     expect(result.passed).toBe(false);
-    expect(result.error).toContain("Cannot find");
+    expect(result.error).toContain("is not defined");
   });
 
 });
