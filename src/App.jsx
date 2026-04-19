@@ -1,120 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { useState, useEffect } from 'react'
+import { storage } from './logic/db'
+import Dashboard from './components/Dashboard'
+import ProblemPage from './components/ProblemPage'
+import problems from './problems'   
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [page, setPage] = useState('dashboard')
+  const [selectedProblem, setSelectedProblem] = useState(null)
+
+  // user id for our guest session 
+  const [guestUserId, setGuestUserId] = useState(null)
+  const [dbReady, setDbReady]         = useState(false)
+
+  // seed once on first load
+  useEffect(() => {
+    async function seed() {
+      // user if its the first time
+      // made it this way so that when we close out and come back we fetch from db.js
+      let user = await storage.getUser("guest")
+      if (!user) {
+        await storage.addUser("guest", "")
+        user = await storage.getUser("guest")
+      }
+      setGuestUserId(user.id)
+
+      // put all problems in db.js if they aren't already there
+      for (const p of problems) {
+        const existing = await storage.getChallenge(p.title)
+        if (!existing) {
+          await storage.addChallenge(p.title, p.description, p.testCases, "", p.functionName)
+        }
+      }
+
+      setDbReady(true)
+    }
+    seed()
+  }, [])
+
+  if (page === 'problem' && selectedProblem) {
+    return (
+      <ProblemPage
+        problem={selectedProblem}
+        userId={guestUserId}
+        onBack={() => setPage('dashboard')}
+      />
+    )
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    <Dashboard
+      userId={guestUserId}
+      problems={problems}
+      onSelectProblem={(p) => {
+        setSelectedProblem(p)
+        setPage('problem')
+      }}
+    />
   )
 }
 
