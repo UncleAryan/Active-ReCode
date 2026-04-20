@@ -3,11 +3,12 @@ import Dexie from "dexie";
 const db = new Dexie("CodeRunnerDB");
 
 db.version(1).stores({
-  cards: "++id, userId, challengeId, fsrsCard",
+  cards: "++id, userId, challengeId, [userId+challengeId], fsrsCard, fsrsCard.due",
   challenges: "++id, title, description, testCases, exampleSolution, functionName",
   users: "++id, username, passwordHash"
 });
 
+// legacy version of storage: no factory pattern
 export const storage = {
     // User management
     async addUser(username, passwordHash) {
@@ -60,4 +61,86 @@ export const storage = {
     async getAllChallenges() {
         return await db.challenges.toArray();
     }
+}
+
+class BaseStorage {
+    constructor(tableName) {
+        this.table = db[tableName];
+    }
+
+    async add(item) {
+        return await this.table.add(item);
+    }
+
+    async getByID(id) {
+        return await this.table.get(id);
+    }
+
+    async update(id, updatedFields) {
+        await this.table.update(id, updatedFields);
+    }
+
+    async getAll() {
+        return await this.table.toArray();
+    }
+}
+
+class UserStorage extends BaseStorage {
+    constructor() {
+        super("users");
+    }
+    async getByUsername(username) {
+        return await this.table.where({ username }).first();
+    }
+    async updateByUsername(username, updatedFields) {
+        const user = await this.getByUsername(username);
+        if (user) {
+            await this.update(user.id, updatedFields);
+        }
+    }
+}
+
+class ChallengeStorage extends BaseStorage {
+    constructor() {
+        super("challenges");
+    }
+    async getByTitle(title) {
+        return await this.table.where({ title }).first();
+    }
+    async updateByTitle(title, updatedFields) {
+        const challenge = await this.getByTitle(title);
+        if (challenge) {
+            await this.update(challenge.id, updatedFields);
+        }
+    }
+}
+
+class CardStorage extends BaseStorage {
+    constructor() {
+        super("cards");
+    }
+    async getByUserAndChallenge(userId, challengeId) {
+        return await this.table.where({ userId, challengeId }).first();
+    }
+    async getByUser(userId) {
+        return await this.table.where("userId").equals(userId).toArray();
+    }
+    async updateByUserAndChallenge(userId, challengeId, updatedFields) {
+        const card = await this.getByUserAndChallenge(userId, challengeId);
+        if (card) {
+            await this.update(card.id, updatedFields);
+        }
+    }
+}
+
+export const storageFactory = {
+    createUserStorage() {
+        return new UserStorage();
+    },
+    createChallengeStorage() {
+        return new ChallengeStorage();
+    },
+    createCardStorage() {
+        return new CardStorage();
+    },
 }
