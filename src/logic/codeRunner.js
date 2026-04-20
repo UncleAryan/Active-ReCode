@@ -1,58 +1,47 @@
-// Safe Web Worker based code runner
+// Safe Web Worker based code runner - supports any function name
 
-/*
-How to use: call runUserCode with an object containing:
-- userCode: the JavaScript code provided by the user
-- functionName: the name of the function to test
-- testInput: the input to pass to the function
-- expectedOutput: the expected output of the function
-- timeoutMs: the maximum time (in milliseconds) to allow for execution
-*/
-
-import { Worker } from "worker_threads";
-
-export async function runUserCode({ 
-  userCode, 
-  functionName, 
-  testInput, 
-  expectedOutput, 
-  timeoutMs = 3000 
+export async function runUserCode({
+  userCode,
+  functionName,
+  testInput,
+  expectedOutput,
+  timeoutMs = 3000
 }) {
   return new Promise((resolve) => {
     const startTime = performance.now();
 
     // Worker code as a string
     const workerScript = `
-      const { parentPort } = require('worker_threads');
-      parentPort.on('message', ({ userCode, functionName, testInput }) => {
+      self.onmessage = function(e) {
+        const { userCode, functionName, testInput } = e.data;
 
         try {
-          // fullCode is the user code plus a call to the function with the test input
+          // Dynamically call the function the user was supposed to implement
           const fullCode = \`
             \${userCode}
-            // need to stringify testInput to handle strings, arrays, and objects correctly
+
+            // Call the function with the test input
             return \${functionName}(\${testInput});
           \`;
 
-          // here is where we execute fullCode and send the result back from the Web Worker via postMessage
           const userFunction = new Function(fullCode);
           const actualOutput = userFunction();
-          parentPort.postMessage({ 
-            success: true, 
-            actual: actualOutput 
+
+          self.postMessage({
+            success: true,
+            actual: actualOutput
           });
         } catch (err) {
-          parentPort.postMessage({ 
-            success: false, 
-            error: err.message 
+          self.postMessage({
+            success: false,
+            error: err.message
           });
         }
-      });
+      };
     `;
 
-    // blob and Web Worker setup
-    // const blob = new Blob([workerScript], { type: "application/javascript" });
-    const worker = new Worker(workerScript, {eval: true});
+    const blob = new Blob([workerScript], { type: "application/javascript" });
+    const worker = new Worker(URL.createObjectURL(blob));
 
     let timeoutId = null;
 
@@ -61,8 +50,7 @@ export async function runUserCode({
       worker.terminate();
     };
 
-    // listen for messages from the worker (results of code execution)
-    worker.on('message', (e) => {
+    worker.onmessage = (e) => {
       cleanup();
       const timeTaken = (performance.now() - startTime).toFixed(2);
 
@@ -75,18 +63,18 @@ export async function runUserCode({
         functionName
       };
 
-      if (e.success) {
-        result.actual = e.actual;
+      if (e.data.success) {
+        result.actual = e.data.actual;
         // Compare actual vs expected (works for numbers, strings, arrays, simple objects)
-        result.passed = JSON.stringify(e.actual) === JSON.stringify(expectedOutput);
+        result.passed = JSON.stringify(e.data.actual) === JSON.stringify(expectedOutput);
       } else {
-        result.error = e.error;
+        result.error = e.data.error;
       }
 
       resolve(result);
-    });
+    };
 
-    worker.on('error', (err) => {
+    worker.onerror = (err) => {
       cleanup();
       resolve({
         passed: false,
@@ -96,7 +84,7 @@ export async function runUserCode({
         error: `Worker error: ${err.message}`,
         functionName
       });
-    });
+    };
 
     // Timeout protection (catches infinite loops)
     timeoutId = setTimeout(() => {
@@ -111,7 +99,7 @@ export async function runUserCode({
       });
     }, timeoutMs);
 
-    // postMessage gives the Worker its input and starts execution
+    // Send data to the worker
     worker.postMessage({ userCode, functionName, testInput });
   });
 }
