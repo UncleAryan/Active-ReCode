@@ -10,38 +10,9 @@ export async function runUserCode({
   return new Promise((resolve) => {
     const startTime = performance.now();
 
-    // Worker code as a string
-    const workerScript = `
-      self.onmessage = function(e) {
-        const { userCode, functionName, testInput } = e.data;
-
-        try {
-          // Dynamically call the function the user was supposed to implement
-          const fullCode = \`
-            \${userCode}
-
-            // Call the function with the test input
-            return \${functionName}(\${testInput});
-          \`;
-
-          const userFunction = new Function(fullCode);
-          const actualOutput = userFunction();
-
-          self.postMessage({
-            success: true,
-            actual: actualOutput
-          });
-        } catch (err) {
-          self.postMessage({
-            success: false,
-            error: err.message
-          });
-        }
-      };
-    `;
-
-    const blob = new Blob([workerScript], { type: "application/javascript" });
-    const worker = new Worker(URL.createObjectURL(blob));
+    const worker = new Worker(new URL('./codeRunnerWorker.js', import.meta.url), {
+        type: 'module',
+    });
 
     let timeoutId = null;
 

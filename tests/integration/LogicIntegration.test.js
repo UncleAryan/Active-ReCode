@@ -22,7 +22,6 @@ describe('Logic Integration', () => {
   });
 
   it('run user code, testing codeRunner, which doesnt rely on either of the others', async () => {
-    // Mock or real challenge with test cases
     const result = await runUserCode({
       userCode: 'function sum(arr) { return arr.reduce((a,b)=>a+b,0); }',
       functionName: 'sum',
