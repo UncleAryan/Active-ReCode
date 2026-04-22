@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import CodeMirror from '@uiw/react-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
 import { runUserCode } from '../logic/codeRunner'
@@ -6,8 +6,19 @@ import { storage } from '../logic/db'
 
 function ProblemPage({ problem, userId, onBack }) {
   const [code, setCode] = useState(problem.starterCode)
-  const [results, setResults] = useState(null)   
+  const [results, setResults] = useState(null)
   const [running, setRunning] = useState(false)
+
+  useEffect(() => {
+    storage.getDraft(userId, problem.title).then(draft => {
+      if (draft) setCode(draft.code)
+    })
+  }, [])
+
+  async function handleBack() {
+    await storage.saveDraft(userId, problem.title, code)
+    onBack()
+  }
 
   async function executeTests(testCases) {
     const output = []
@@ -63,7 +74,7 @@ function ProblemPage({ problem, userId, onBack }) {
     <div className="problem-page">
       
       <div className="problem-header">
-        <button className="back-btn" onClick={onBack}>Back</button>
+        <button className="back-btn" onClick={handleBack}>Back</button>
         <h2>{problem.title}</h2>
         <span className={problem.difficulty.toLowerCase()}>{problem.difficulty}</span>
       </div>

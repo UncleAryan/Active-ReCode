@@ -8,6 +8,13 @@ db.version(1).stores({
   users: "++id, username, passwordHash"
 });
 
+db.version(2).stores({
+  cards: "++id, userId, challengeId, [userId+challengeId], fsrsCard, fsrsCard.due",
+  challenges: "++id, title, description, testCases, exampleSolution, functionName",
+  users: "++id, username, passwordHash",
+  drafts: "[userId+problemTitle], code"
+});
+
 // legacy version of storage: no factory pattern
 export const storage = {
     // User management
@@ -60,6 +67,13 @@ export const storage = {
     },
     async getAllChallenges() {
         return await db.challenges.toArray();
+    },
+    // Draft management
+    async saveDraft(userId, problemTitle, code) {
+        await db.drafts.put({ userId, problemTitle, code });
+    },
+    async getDraft(userId, problemTitle) {
+        return await db.drafts.get({ userId, problemTitle });
     }
 }
 

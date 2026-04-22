@@ -11,7 +11,7 @@ function App() {
 
   // user id for our guest session 
   const [guestUserId, setGuestUserId] = useState(null)
-  const [dbReady, setDbReady]         = useState(false)
+  const [dbReady, setDbReady] = useState(false)
 
   // seed once on first load
   useEffect(() => {
