@@ -249,19 +249,25 @@ tbody td {
   font-weight: 600;
 }
 
-/* The textarea acting as a code editor */
+/* CodeMirror editor container */
 .code-editor {
   flex: 1;
-  background: #0f0f14;
-  color: #e2e8f0;
+  overflow: auto;
+}
+
+.code-editor .cm-editor {
+  height: 100%;
   font-family: 'Consolas', 'Monaco', 'Fira Code', monospace;
   font-size: 14px;
   line-height: 1.6;
-  padding: 20px;
-  border: none;
+}
+
+.code-editor .cm-scroller {
+  overflow: auto;
+}
+
+.code-editor .cm-focused {
   outline: none;
-  resize: none;
-  tab-size: 2;
 }
 
 /* ─── Results panel at the bottom of code panel ──────────────────────────────── */

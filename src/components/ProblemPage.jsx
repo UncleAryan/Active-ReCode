@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import CodeMirror from '@uiw/react-codemirror'
+import { javascript } from '@codemirror/lang-javascript'
 import { runUserCode } from '../logic/codeRunner'
 import { storage } from '../logic/db'
 
@@ -57,19 +59,6 @@ function ProblemPage({ problem, userId, onBack }) {
     setRunning(false)
   }
 
-  // tab key inserts 2 spaces instead of jumping focus when in code editor
-  function handleKeyDown(e) {
-    if (e.key === 'Tab') {
-      e.preventDefault()
-      const { selectionStart: s, selectionEnd: end } = e.target
-      const next = code.slice(0, s) + '  ' + code.slice(end)
-      setCode(next)
-      requestAnimationFrame(() => {
-        e.target.selectionStart = e.target.selectionEnd = s + 2
-      })
-    }
-  }
-
   return (
     <div className="problem-page">
       
@@ -110,14 +99,19 @@ function ProblemPage({ problem, userId, onBack }) {
             </div>
           </div>
 
-          <textarea
+          <CodeMirror
             className="code-editor"
             value={code}
-            onChange={e => setCode(e.target.value)}
-            onKeyDown={handleKeyDown}
-            spellCheck={false}
-            autoCapitalize="off"
-            autoCorrect="off"
+            onChange={(val) => setCode(val)}
+            extensions={[javascript()]}
+            theme="dark"
+            basicSetup={{
+              lineNumbers: true,
+              autocompletion: true,
+              bracketMatching: true,
+              closeBrackets: true,
+              indentOnInput: true,
+            }}
           />
 
           {results && (
