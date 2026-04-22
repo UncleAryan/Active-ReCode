@@ -17,6 +17,10 @@ vi.mock('../../src/logic/codeRunner', () => ({
   runUserCode: vi.fn(), // we don't call it in unit tests, so no return value needed
 }))
 
+vi.mock('@uiw/react-codemirror', () => ({
+  default: ({ value }) => <textarea defaultValue={value} readOnly />,
+}))
+
 // fake prop 
 const mockProblem = {
   title:        'Two Sum',
