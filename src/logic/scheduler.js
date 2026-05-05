@@ -41,7 +41,7 @@ export const scheduler = {
 
         // Get or create card
         let card = await this.getFsrsCard(userId, challengeId);
-        if (!card) {
+        if (!card || card.reps === undefined) {
             card = createEmptyCard();
         }
         const result = fsrsScheduler.next(card, now, rating);
