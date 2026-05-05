@@ -1,0 +1,317 @@
+/* ─── Global reset & dark theme ─────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Override index.css heading sizes which are too large for app UI */
+h1 { font-size: 26px !important; letter-spacing: normal !important; margin: 0 !important; }
+h2 { font-size: 18px !important; letter-spacing: normal !important; margin: 0 !important; }
+
+body {
+  background: #0f0f14;
+  color: #d4d4d8;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* ─── Difficulty badge colors ────────────────────────────────────────────────── */
+.easy   { color: #22c55e; }
+.medium { color: #f59e0b; }
+.hard   { color: #ef4444; }
+
+/* ─── Shared button base ─────────────────────────────────────────────────────── */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  padding: 8px 18px;
+  transition: opacity 0.15s;
+}
+button:hover { opacity: 0.85; }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ─── Loading screen ─────────────────────────────────────────────────────────── */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 18px;
+  color: #71717a;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════════
+   DASHBOARD
+   ════════════════════════════════════════════════════════════════════════════════ */
+.dashboard {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 36px;
+}
+
+.dashboard-header h1 {
+  font-size: 26px;
+  color: #f4f4f5;
+}
+
+/* "Begin Studying" CTA button */
+.begin-btn {
+  background: #3b82f6;
+  color: #fff;
+  font-size: 15px;
+  padding: 10px 22px;
+  font-weight: 600;
+}
+
+/* ─── Stats row ──────────────────────────────────────────────────────────────── */
+.stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.stat-card {
+  flex: 1;
+  background: #1c1c27;
+  border: 1px solid #2a2a3a;
+  border-radius: 10px;
+  padding: 22px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 30px;
+  font-weight: 700;
+  color: #f4f4f5;
+}
+
+.stat-label {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #71717a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ─── Problem list table ─────────────────────────────────────────────────────── */
+.problem-list h2 {
+  font-size: 18px;
+  color: #f4f4f5;
+  margin-bottom: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  text-align: left;
+  font-size: 12px;
+  color: #71717a;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 10px 14px;
+  border-bottom: 1px solid #2a2a3a;
+}
+
+/* Each problem row is clickable */
+.problem-row {
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.problem-row:hover td {
+  background: #1c1c27;
+}
+
+tbody td {
+  padding: 14px;
+  border-bottom: 1px solid #1e1e2a;
+  font-size: 14px;
+}
+
+.status-solved   { color: #22c55e; font-weight: 600; }
+.status-unsolved { color: #52525b; }
+
+/* ════════════════════════════════════════════════════════════════════════════════
+   PROBLEM PAGE  (split-pane layout)
+   ════════════════════════════════════════════════════════════════════════════════ */
+.problem-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.problem-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 20px;
+  background: #18181f;
+  border-bottom: 1px solid #2a2a3a;
+  flex-shrink: 0;
+}
+
+.problem-header h2 {
+  font-size: 17px;
+  color: #f4f4f5;
+  flex: 1;
+}
+
+.back-btn {
+  background: #27272f;
+  color: #d4d4d8;
+}
+
+/* ─── Two-column pane ────────────────────────────────────────────────────────── */
+.problem-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Left: problem description */
+.problem-description {
+  width: 42%;
+  padding: 24px;
+  overflow-y: auto;
+  border-right: 1px solid #2a2a3a;
+  background: #111118;
+}
+
+.problem-description h3 {
+  font-size: 20px;
+  color: #f4f4f5;
+  margin-bottom: 6px;
+}
+
+.problem-meta {
+  margin-bottom: 18px;
+}
+
+.problem-description pre {
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #a1a1aa;
+}
+
+/* Right: code editor panel */
+.code-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #0f0f14;
+  overflow: hidden;
+}
+
+/* Top bar inside code panel */
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #18181f;
+  border-bottom: 1px solid #2a2a3a;
+  flex-shrink: 0;
+}
+
+.editor-toolbar span {
+  font-size: 13px;
+  color: #71717a;
+}
+
+.editor-toolbar .btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+.run-btn {
+  background: #27272f;
+  color: #d4d4d8;
+}
+
+.submit-btn {
+  background: #22c55e;
+  color: #000;
+  font-weight: 600;
+}
+
+/* CodeMirror editor container */
+.code-editor {
+  flex: 1;
+  overflow: auto;
+}
+
+.code-editor .cm-editor {
+  height: 100%;
+  font-family: 'Consolas', 'Monaco', 'Fira Code', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.code-editor .cm-scroller {
+  overflow: auto;
+}
+
+.code-editor .cm-focused {
+  outline: none;
+}
+
+/* ─── Results panel at the bottom of code panel ──────────────────────────────── */
+.results-panel {
+  flex-shrink: 0;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 14px 20px;
+  background: #13131a;
+  border-top: 1px solid #2a2a3a;
+}
+
+.results-panel h4 {
+  font-size: 14px;
+  color: #a1a1aa;
+  margin-bottom: 10px;
+}
+
+.verdict {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.verdict.pass { color: #22c55e; }
+.verdict.fail { color: #ef4444; }
+
+/* Individual test case result row */
+.test-case-result {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-family: 'Consolas', monospace;
+}
+.test-case-result.passed { background: #14261d; border: 1px solid #166534; }
+.test-case-result.failed { background: #2a1215; border: 1px solid #7f1d1d; }
+
+.test-case-result .tc-header {
+  font-weight: 600;
+  color: #f4f4f5;
+  margin-bottom: 4px;
+}
+.test-case-result .tc-detail { color: #a1a1aa; }
+.test-case-result .tc-error  { color: #f87171; }
