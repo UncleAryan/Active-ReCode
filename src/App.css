@@ -315,3 +315,126 @@ tbody td {
 }
 .test-case-result .tc-detail { color: #a1a1aa; }
 .test-case-result .tc-error  { color: #f87171; }
+
+/* ─── Rating prompt (shown after passing submit) ─────────────────────────── */
+.rating-section {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: #1a1f2e;
+  border: 1px solid #2a2a3a;
+  border-radius: 6px;
+}
+
+.rating-label {
+  font-size: 13px;
+  color: #a1a1aa;
+  margin-bottom: 8px;
+}
+
+.rating-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.rating-btn { font-size: 13px; font-weight: 600; padding: 6px 14px; }
+.rating-btn-again { background: #7f1d1d; color: #fca5a5; }
+.rating-btn-hard  { background: #78350f; color: #fcd34d; }
+.rating-btn-good  { background: #14532d; color: #86efac; }
+.rating-btn-easy  { background: #1e3a5f; color: #93c5fd; }
+
+.rating-done {
+  font-size: 13px;
+  color: #86efac;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   REVIEW QUEUE
+   ════════════════════════════════════════════════════════════════════════════ */
+.review-queue {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.queue-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.queue-section {
+  margin-bottom: 32px;
+}
+
+.queue-section-title {
+  font-size: 12px;
+  color: #71717a;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.queue-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  background: #1c1c27;
+  border: 1px solid #2a2a3a;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.queue-item:hover { background: #22223a; }
+
+.queue-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.queue-item-title {
+  font-size: 15px;
+  color: #f4f4f5;
+}
+
+.badge-due {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #7f1d1d;
+  color: #fca5a5;
+}
+
+.badge-new {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #1e3a5f;
+  color: #93c5fd;
+}
+
+.queue-empty {
+  text-align: center;
+  padding: 60px 24px;
+  color: #52525b;
+  font-size: 16px;
+}
+
+/* ─── Dashboard header action buttons ───────────────────────────────────── */
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.queue-btn {
+  background: #27272f;
+  color: #d4d4d8;
+  font-size: 15px;
+  padding: 10px 22px;
+  font-weight: 600;
+}
