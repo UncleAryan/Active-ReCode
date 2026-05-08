@@ -34,6 +34,7 @@ Constraints:
   // Your solution here
 
 }`,
+    tags: ["array", "hash-table"],
   },
   {
     title: "Contains Duplicate",
@@ -68,6 +69,7 @@ Constraints:
   // Your solution here
 
 }`,
+    tags: ["array", "hash-table"],
   },
   {
     title: "Valid Anagram",
@@ -98,6 +100,7 @@ Follow up:
   // Your solution here
 
 }`,
+    tags: ["array", "hash-table", "string"],
   },
   {
     title: "Valid Palindrome",
@@ -136,6 +139,7 @@ Constraints:
   // Your solution here
 
 }`,
+    tags: ["string", "two-pointers"],
   },
   {
     title: "Best Time to Buy and Sell Stock",
@@ -170,6 +174,7 @@ Constraints:
   // Your solution here
 
 }`,
+    tags: ["array", "dynamic-programming"],
   },
   {
     title: "Valid Parentheses",
@@ -217,6 +222,7 @@ Constraints:
   // Your solution here
 
 }`,
+    tags: ["string", "stack"],
   },
   {
     title: "Binary Search",
@@ -250,6 +256,7 @@ Constraints:
   // Your solution here
 
 }`,
+    tags: ["array", "binary-search"],
   },
   {
     title: "Last Stone Weight",
@@ -285,6 +292,7 @@ Constraints:
   // Your solution here
 
 }`,
+    tags: ["array", "heap", "priority-queue"],
   },
   {
     title: "Climbing Stairs",
@@ -320,6 +328,7 @@ Constraints:
   // Your solution here
 
 }`,
+    tags: ["dynamic-programming", "math"],
   },
   {
     title: "Number of 1 Bits",
@@ -357,6 +366,7 @@ Follow up:
   // Your solution here
 
 }`,
+    tags: ["bit-manipulation"],
   },
 ];
 
