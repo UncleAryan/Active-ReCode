@@ -14,6 +14,13 @@ db.version(2).stores({
   users: "++id, username, passwordHash",
   drafts: "[userId+problemTitle], code"
 });
+db.version(3).stores({
+  cards: "++id, userId, challengeId, [userId+challengeId], fsrsCard, fsrsCard.due",
+  challenges: "++id, title, description, testCases, exampleSolution, functionName",
+  users: "++id, username, passwordHash",
+  drafts: "[userId+problemTitle], code",
+  attempt_history: "++id, userId, challengeId, timestamp, solutionCode, rating"
+});
 
 // legacy version of storage: no factory pattern
 export const storage = {
@@ -80,8 +87,17 @@ export const storage = {
     },
     async getDraft(userId, problemTitle) {
         return await db.drafts.get({ userId, problemTitle });
-    }
+    },
+
+    // Attempt history management
+    async addAttempt(userId, challengeId, solutionCode, rating) {
+        await db.attempt_history.add({ userId, challengeId, timestamp: Date.now(), solutionCode, rating });
+    },
+    async getAttemptsByUserAndChallenge(userId, challengeId) {
+        return await db.attempt_history.where({ userId, challengeId }).toArray();
+    },
 }
+
 
 class BaseStorage {
     constructor(tableName) {
