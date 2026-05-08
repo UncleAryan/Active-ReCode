@@ -54,7 +54,13 @@ export const storage = {
     },
     // Challenge management
     async addChallenge(title, description, testCases, exampleSolution, functionName) {
-        await db.challenges.add({ title, description, testCases, exampleSolution, functionName });
+        const existing = await db.challenges.where({ title }).first();
+        if (!existing) {
+            await db.challenges.add({ title, description, testCases, exampleSolution, functionName });
+        }
+        else {
+            this.updateChallenge(title, { description, testCases, exampleSolution, functionName });
+        }
     },
     async getChallenge(name) {
         return await db.challenges.where({ title: name }).first();
