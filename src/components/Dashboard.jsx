@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { storage } from '../logic/db'
 
-function Dashboard({ userId, problems, onSelectProblem }) {
+function Dashboard({ userId, problems, onSelectProblem, onOpenQueue }) {
   // keeps track of titles of solved problems
   const [solvedTitles, setSolvedTitles] = useState(new Set())
 
@@ -11,10 +11,8 @@ function Dashboard({ userId, problems, onSelectProblem }) {
       const challenges = await storage.getAllChallenges()
       const cards = await storage.getCardsByUser(userId)
 
-      // set of IDs for completed problems for that local user
-      const completedIds = new Set(
-        cards.filter(c => c.fsrsCard?.completed).map(c => c.challengeId)
-      )
+      // Any card (old { completed } format or real FSRS card) counts as solved
+      const completedIds = new Set(cards.map(c => c.challengeId))
 
       // map the IDs for completed problems to problem titles
       const solved = new Set()
@@ -37,12 +35,10 @@ function Dashboard({ userId, problems, onSelectProblem }) {
     <div className="dashboard">
       <div className="dashboard-header">
         <h1>Code Trainer</h1>
-        <button
-          className="begin-btn"
-          onClick={() => onSelectProblem(problems[0])}
-        >
-          Begin Studying
-        </button>
+        <div className="header-actions">
+          <button className="queue-btn" onClick={onOpenQueue}>Review Queue</button>
+          <button className="begin-btn" onClick={() => onSelectProblem(problems[0])}>Begin Studying</button>
+        </div>
       </div>
 
       <div className="stats">

@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { storage } from './logic/db'
 import Dashboard from './components/Dashboard'
 import ProblemPage from './components/ProblemPage'
-import problems from './problems'   
+import ReviewQueue from './components/ReviewQueue'
+import problems from './problems'
 import './App.css'
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
   // user id for our guest session 
   const [guestUserId, setGuestUserId] = useState(null)
   const [dbReady, setDbReady] = useState(false)
+  const [reviewMode, setReviewMode] = useState(false)
 
   // seed once on first load
   useEffect(() => {
@@ -38,11 +40,29 @@ function App() {
     seed()
   }, [])
 
+  function goToProblem(p, fromReview = false) {
+    setSelectedProblem(p)
+    setReviewMode(fromReview)
+    setPage('problem')
+  }
+
   if (page === 'problem' && selectedProblem) {
     return (
       <ProblemPage
         problem={selectedProblem}
         userId={guestUserId}
+        reviewMode={reviewMode}
+        onBack={() => setPage('dashboard')}
+      />
+    )
+  }
+
+  if (page === 'queue') {
+    return (
+      <ReviewQueue
+        userId={guestUserId}
+        problems={problems}
+        onSelectProblem={(p) => goToProblem(p, true)}
         onBack={() => setPage('dashboard')}
       />
     )
@@ -52,10 +72,8 @@ function App() {
     <Dashboard
       userId={guestUserId}
       problems={problems}
-      onSelectProblem={(p) => {
-        setSelectedProblem(p)
-        setPage('problem')
-      }}
+      onSelectProblem={goToProblem}
+      onOpenQueue={() => setPage('queue')}
     />
   )
 }
