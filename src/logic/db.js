@@ -8,6 +8,20 @@ db.version(1).stores({
   users: "++id, username, passwordHash"
 });
 
+db.version(2).stores({
+  cards: "++id, userId, challengeId, [userId+challengeId], fsrsCard, fsrsCard.due",
+  challenges: "++id, title, description, testCases, exampleSolution, functionName",
+  users: "++id, username, passwordHash",
+  drafts: "[userId+problemTitle], code"
+});
+db.version(3).stores({
+  cards: "++id, userId, challengeId, [userId+challengeId], fsrsCard, fsrsCard.due",
+  challenges: "++id, title, description, testCases, exampleSolution, functionName",
+  users: "++id, username, passwordHash",
+  drafts: "[userId+problemTitle], code",
+  attempt_history: "++id, userId, challengeId, timestamp, solutionCode, rating"
+});
+
 // legacy version of storage: no factory pattern
 export const storage = {
     // User management
@@ -47,7 +61,13 @@ export const storage = {
     },
     // Challenge management
     async addChallenge(title, description, testCases, exampleSolution, functionName) {
-        await db.challenges.add({ title, description, testCases, exampleSolution, functionName });
+        const existing = await db.challenges.where({ title }).first();
+        if (!existing) {
+            await db.challenges.add({ title, description, testCases, exampleSolution, functionName });
+        }
+        else {
+            this.updateChallenge(title, { description, testCases, exampleSolution, functionName });
+        }
     },
     async getChallenge(name) {
         return await db.challenges.where({ title: name }).first();
@@ -60,8 +80,24 @@ export const storage = {
     },
     async getAllChallenges() {
         return await db.challenges.toArray();
-    }
+    },
+    // Draft management
+    async saveDraft(userId, problemTitle, code) {
+        await db.drafts.put({ userId, problemTitle, code });
+    },
+    async getDraft(userId, problemTitle) {
+        return await db.drafts.get({ userId, problemTitle });
+    },
+
+    // Attempt history management
+    async addAttempt(userId, challengeId, solutionCode, rating) {
+        await db.attempt_history.add({ userId, challengeId, timestamp: Date.now(), solutionCode, rating });
+    },
+    async getAttemptsByUserAndChallenge(userId, challengeId) {
+        return await db.attempt_history.where({ userId, challengeId }).toArray();
+    },
 }
+
 
 class BaseStorage {
     constructor(tableName) {

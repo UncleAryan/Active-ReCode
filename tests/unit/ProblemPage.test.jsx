@@ -8,11 +8,17 @@ vi.mock('../../src/logic/db', () => ({
     getChallenge: vi.fn().mockResolvedValue({ id: 1, title: 'Two Sum' }),
     getCard:      vi.fn().mockResolvedValue(null),
     addCard:      vi.fn().mockResolvedValue(),
+    getDraft:     vi.fn().mockResolvedValue(null),
+    saveDraft:    vi.fn().mockResolvedValue(),
   },
 }))
 
 vi.mock('../../src/logic/codeRunner', () => ({
   runUserCode: vi.fn(), // we don't call it in unit tests, so no return value needed
+}))
+
+vi.mock('@uiw/react-codemirror', () => ({
+  default: ({ value }) => <textarea defaultValue={value} readOnly />,
 }))
 
 // fake prop 
