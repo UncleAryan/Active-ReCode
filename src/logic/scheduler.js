@@ -34,23 +34,25 @@ export const scheduler = {
     },
     // Main review function - updates the card based on user rating
     async review(userId, challengeId, rating, now = new Date()) {
-        // check for valid Rating value
+        // check for valid Rating value and throw an error if != vaild
         if (!Object.values(Rating).includes(rating)) {
             throw new Error(`Invalid rating. Must be one of: ${Object.values(Rating).join(', ')}`);
         }
 
-        // Get or create card
-        let card = await this.getFsrsCard(userId, challengeId);
-        if (!card || card.reps === undefined) {
-            card = createEmptyCard();
-        }
+        // Fetch the existing card for the user and challenge
+        const card = await this.getFsrsCard(userId, challengeId);
+        // Run the FSRS algorithm to calculate the updated card based off the rating
         const result = fsrsScheduler.next(card, now, rating);
-        if (await this.getFsrsCard(userId, challengeId)) {
+
+        // If the card exists update the rating
+        // if the card doesn't exist make a new card
+        if (card) {
             await storage.updateCard(userId, challengeId, result.card);
         } else {
             await storage.addCard(userId, challengeId, result.card);
         }
 
+        // Return updated card, result.log, and rating
         return {
             success: true,
             card: result.card,
