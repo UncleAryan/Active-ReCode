@@ -40,7 +40,7 @@ export const scheduler = {
         }
 
         // Fetch the existing card for the user and challenge
-        const card = await this.getFsrsCard(userId, challengeId);
+        const card = await this.getFsrsCard(userId, challengeId) ?? createEmptyCard();
         // Run the FSRS algorithm to calculate the updated card based off the rating
         const result = fsrsScheduler.next(card, now, rating);
 
