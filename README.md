@@ -9,7 +9,7 @@ A browser-based coding practice platform that helps you learn algorithmic proble
 
 ## What It Does
 
-Code Trainer presents you with a library of algorithmic challenges. You write a solution in the built-in editor, run it against test cases, and submit when you are ready. After a correct submission, the spaced repetition system creates a review card for that problem and schedules it to reappear based on how well you knew it. Over time, the system builds a personalized review queue so you spend more time on what you find difficult.
+Active ReCode presents you with a library of algorithmic challenges. You write a solution in the built-in editor, run it against test cases, and submit when you are ready. After a correct submission, the spaced repetition system creates a review card for that problem and schedules it to reappear based on how well you knew it. Over time, the system builds a personalized review queue so you spend more time on what you find difficult.
 
 ---
 
@@ -54,10 +54,7 @@ The app runs at `http://localhost:5173`.
 
 ```bash
 npm run dev       # Start development server
-npm run build     # Build for production
-npm run preview   # Preview the production build
 npm run test      # Run all tests
-npm run lint      # Run ESLint
 ```
 
 ---
