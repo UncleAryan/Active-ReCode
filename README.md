@@ -1,4 +1,7 @@
-# Code Trainer
+# Active ReCode
+
+> "Based on "Active Recall," which is the memory system that SRS studying is supposed to trigger."
+> — Erik Ecklund
 
 A browser-based coding practice platform that helps you learn algorithmic problem solving through spaced repetition. Solve problems, get instant feedback on your code, and let the scheduler surface problems for review at the right time.
 
