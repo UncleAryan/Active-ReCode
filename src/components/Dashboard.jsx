@@ -34,7 +34,10 @@ function Dashboard({ userId, problems, onSelectProblem, onOpenQueue }) {
   return (
     <div className="dashboard">
       <div className="dashboard-header">
-        <h1>Code Trainer</h1>
+        <div className="app-brand">
+          <span className="app-brand-dot"></span>
+          <h1>Active ReCode</h1>
+        </div>
         <div className="header-actions">
           <button className="queue-btn" onClick={onOpenQueue}>Review Queue</button>
           <button className="begin-btn" onClick={() => onSelectProblem(problems[0])}>Begin Studying</button>
@@ -53,42 +56,47 @@ function Dashboard({ userId, problems, onSelectProblem, onOpenQueue }) {
       </div>
 
       <div className="problem-list">
-        <h2>Problems</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Difficulty</th>
-              <th>Date Added</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {problems.map((p) => {
-              const solved = solvedTitles.has(p.title)
-              return (
-                <tr
-                  key={p.title}
-                  className="problem-row"
-                  onClick={() => onSelectProblem(p)}
-                >
-                  <td>{p.title}</td>
-                  <td>
-                    <span className={p.difficulty.toLowerCase()}>
-                      {p.difficulty}
-                    </span>
-                  </td>
-                  <td>{p.dateAdded}</td>
-                  <td>
-                    <span className={solved ? 'status-solved' : 'status-unsolved'}>
-                      {solved ? 'Solved' : 'Not Solved'}
-                    </span>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+        <div className="problem-list-header">
+          <h2>Problems</h2>
+          <span className="problem-count">{total} total</span>
+        </div>
+        <div className="problem-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Difficulty</th>
+                <th>Date Added</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {problems.map((p) => {
+                const solved = solvedTitles.has(p.title)
+                return (
+                  <tr
+                    key={p.title}
+                    className="problem-row"
+                    onClick={() => onSelectProblem(p)}
+                  >
+                    <td>{p.title}</td>
+                    <td>
+                      <span className={`difficulty-chip ${p.difficulty.toLowerCase()}`}>
+                        {p.difficulty}
+                      </span>
+                    </td>
+                    <td>{p.dateAdded}</td>
+                    <td>
+                      <span className={solved ? 'status-solved' : 'status-unsolved'}>
+                        {solved ? 'Solved' : 'Not Solved'}
+                      </span>
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )

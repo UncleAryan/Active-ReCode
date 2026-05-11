@@ -77,12 +77,13 @@ function ReviewQueue({ userId, problems, onSelectProblem, onBack }) {
 
       {isEmpty ? (
         <div className="queue-empty">
-          You're all caught up! No problems due right now.
+          <div className="queue-empty-title">All caught up</div>
+          No problems are due right now.
         </div>
       ) : (
         <>
           {dueItems.length > 0 && (
-            <div className="queue-section">
+            <div className="queue-section due">
               <div className="queue-section-title">Due for Review</div>
               {dueItems.map(problem => (
                 <div
@@ -92,16 +93,19 @@ function ReviewQueue({ userId, problems, onSelectProblem, onBack }) {
                 >
                   <div className="queue-item-left">
                     <span className="queue-item-title">{problem.title}</span>
-                    <span className={problem.difficulty.toLowerCase()}>{problem.difficulty}</span>
+                    <span className={`difficulty-chip ${problem.difficulty.toLowerCase()}`}>{problem.difficulty}</span>
                   </div>
-                  <span className="badge-due">DUE</span>
+                  <div className="queue-item-right">
+                    <span className="badge-due">Due</span>
+                    <span className="queue-chevron">›</span>
+                  </div>
                 </div>
               ))}
             </div>
           )}
 
           {newItems.length > 0 && (
-            <div className="queue-section">
+            <div className="queue-section new">
               <div className="queue-section-title">New Problems</div>
               {newItems.map(problem => (
                 <div
@@ -111,9 +115,12 @@ function ReviewQueue({ userId, problems, onSelectProblem, onBack }) {
                 >
                   <div className="queue-item-left">
                     <span className="queue-item-title">{problem.title}</span>
-                    <span className={problem.difficulty.toLowerCase()}>{problem.difficulty}</span>
+                    <span className={`difficulty-chip ${problem.difficulty.toLowerCase()}`}>{problem.difficulty}</span>
                   </div>
-                  <span className="badge-new">NEW</span>
+                  <div className="queue-item-right">
+                    <span className="badge-new">New</span>
+                    <span className="queue-chevron">›</span>
+                  </div>
                 </div>
               ))}
             </div>

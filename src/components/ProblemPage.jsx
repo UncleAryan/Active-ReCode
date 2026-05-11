@@ -80,7 +80,7 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false }) {
 
   return (
     <div className="problem-page">
-      
+
       <div className="problem-header">
         <button className="back-btn" onClick={handleBack}>Back</button>
         <h2>{problem.title}</h2>
@@ -92,14 +92,17 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false }) {
         <div className="problem-description">
           <h3>{problem.title}</h3>
           <div className="problem-meta">
-            <span className={problem.difficulty.toLowerCase()}>{problem.difficulty}</span>
+            <span className={`difficulty-chip ${problem.difficulty.toLowerCase()}`}>{problem.difficulty}</span>
           </div>
           <pre>{problem.description}</pre>
         </div>
 
         <div className="code-panel">
           <div className="editor-toolbar">
-            <span>JavaScript</span>
+            <span className="lang-badge">
+              <span className="lang-dot"></span>
+              JavaScript
+            </span>
             <div className="btn-group">
               <button
                 className="run-btn"
@@ -142,8 +145,8 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false }) {
               {results.type === 'submit' && (
                 <div className={`verdict ${results.allPassed ? 'pass' : 'fail'}`}>
                   {results.allPassed
-                    ? 'Accepted! all tests passed!'
-                    : 'Wrong Answer. Some tests failed.'}
+                    ? 'Accepted — all tests passed!'
+                    : 'Wrong Answer — some tests failed.'}
                 </div>
               )}
 
@@ -168,14 +171,14 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false }) {
                 </div>
               )}
 
-              {/* shows each test case in each row (AI assisted) */}
+              {/* shows each test case in each row */}
               {results.cases.map((r, i) => (
                 <div
                   key={i}
                   className={`test-case-result ${r.passed ? 'passed' : 'failed'}`}
                 >
                   <div className="tc-header">
-                    {r.passed ? 'PASSED' : 'FAILED'} Test case {i + 1}
+                    {r.passed ? 'Passed' : 'Failed'} — Test case {i + 1}
                   </div>
 
                   {r.error ? (
