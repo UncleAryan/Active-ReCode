@@ -10,10 +10,21 @@ function App() {
   const [page, setPage] = useState('dashboard')
   const [selectedProblem, setSelectedProblem] = useState(null)
 
-  // user id for our guest session 
+  // user id for our guest session
   const [guestUserId, setGuestUserId] = useState(null)
   const [dbReady, setDbReady] = useState(false)
   const [reviewMode, setReviewMode] = useState(false)
+
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark')
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+  function toggleTheme() {
+    setTheme(t => t === 'dark' ? 'light' : 'dark')
+  }
 
   // seed once on first load
   useEffect(() => {
@@ -53,6 +64,8 @@ function App() {
         userId={guestUserId}
         reviewMode={reviewMode}
         onBack={() => setPage('dashboard')}
+        theme={theme}
+        toggleTheme={toggleTheme}
       />
     )
   }
@@ -64,6 +77,8 @@ function App() {
         problems={problems}
         onSelectProblem={(p) => goToProblem(p, true)}
         onBack={() => setPage('dashboard')}
+        toggleTheme={toggleTheme}
+        theme={theme}
       />
     )
   }
@@ -74,6 +89,8 @@ function App() {
       problems={problems}
       onSelectProblem={goToProblem}
       onOpenQueue={() => setPage('queue')}
+      theme={theme}
+      toggleTheme={toggleTheme}
     />
   )
 }

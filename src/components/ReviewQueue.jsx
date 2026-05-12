@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { storage } from '../logic/db'
 import { scheduler } from '../logic/scheduler'
+import ThemeToggle from './ThemeToggle'
 
-function ReviewQueue({ userId, problems, onSelectProblem, onBack }) {
+function ReviewQueue({ userId, problems, onSelectProblem, onBack, theme, toggleTheme }) {
   const [dueItems, setDueItems] = useState([])
   const [newItems, setNewItems] = useState([])
   const [loading, setLoading] = useState(true)
@@ -62,6 +63,7 @@ function ReviewQueue({ userId, problems, onSelectProblem, onBack }) {
       <div className="queue-header">
         <button className="back-btn" onClick={onBack}>Back</button>
         <h1>Review Queue</h1>
+        <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
       </div>
 
       <div className="stats">

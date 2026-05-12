@@ -1,4 +1,3 @@
-/* ─── Global reset & base ────────────────────────────────────────────────────── */
 body {
   font-family: 'Inter', system-ui, sans-serif;
   background: var(--color-bg);
@@ -9,12 +8,10 @@ body {
 h1 { font-size: 24px !important; font-weight: 700 !important; letter-spacing: -0.3px !important; margin: 0 !important; }
 h2 { font-size: 17px !important; font-weight: 600 !important; letter-spacing: normal !important; margin: 0 !important; }
 
-/* ─── Difficulty text colors (plain, for header/inline usage) ────────────────── */
 .easy   { color: var(--color-easy);   font-weight: 500; }
 .medium { color: var(--color-medium); font-weight: 500; }
 .hard   { color: var(--color-hard);   font-weight: 500; }
 
-/* ─── Difficulty chip (pill badge, for table / list items) ──────────────────── */
 .difficulty-chip {
   display: inline-block;
   font-size: 11px;
@@ -27,7 +24,84 @@ h2 { font-size: 17px !important; font-weight: 600 !important; letter-spacing: no
 .difficulty-chip.medium { background: var(--color-medium-dim); color: var(--color-medium); }
 .difficulty-chip.hard   { background: var(--color-hard-dim);   color: var(--color-hard);   }
 
-/* ─── Base button ────────────────────────────────────────────────────────────── */
+.theme-toggle-btn {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border-2);
+  padding: 0;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+.theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-text);
+}
+
+[data-theme="light"] .theme-toggle-btn {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: var(--color-border-2);
+}
+[data-theme="light"] .theme-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.09);
+}
+
+[data-theme="light"] .problem-description {
+  background: var(--color-surface);
+}
+[data-theme="light"] .problem-description::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+}
+[data-theme="light"] .results-panel::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+}
+[data-theme="light"] tbody td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+[data-theme="light"] .problem-row:hover td {
+  background: rgba(22, 163, 74, 0.05);
+}
+[data-theme="light"] .status-unsolved {
+  color: #A8B8CC;
+}
+[data-theme="light"] .queue-item:hover {
+  background: #EEF2F7;
+}
+[data-theme="light"] .queue-chevron {
+  color: #C0CCDA;
+}
+[data-theme="light"] .queue-btn {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--color-text-sec);
+  border-color: var(--color-border-2);
+}
+[data-theme="light"] .queue-btn:hover {
+  background: rgba(0, 0, 0, 0.09);
+  color: var(--color-text);
+}
+[data-theme="light"] .back-btn {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--color-text-muted);
+  border-color: var(--color-border-2);
+}
+[data-theme="light"] .back-btn:hover {
+  background: rgba(0, 0, 0, 0.09);
+  color: var(--color-text);
+}
+[data-theme="light"] .run-btn {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--color-text-sec);
+  border-color: var(--color-border-2);
+}
+[data-theme="light"] .run-btn:hover {
+  background: rgba(0, 0, 0, 0.09);
+  color: var(--color-text);
+}
+
 button {
   cursor: pointer;
   border: none;
@@ -44,7 +118,6 @@ button {
 button:active  { transform: scale(0.97); }
 button:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; }
 
-/* ─── Loading screen ─────────────────────────────────────────────────────────── */
 .loading {
   display: flex;
   align-items: center;
@@ -66,17 +139,12 @@ button:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-
-/* ════════════════════════════════════════════════════════════════════════════════
-   DASHBOARD
-   ════════════════════════════════════════════════════════════════════════════════ */
 .dashboard {
   max-width: 900px;
   margin: 0 auto;
   padding: 48px 28px;
 }
 
-/* ─── App brand / header ─────────────────────────────────────────────────────── */
 .dashboard-header {
   display: flex;
   align-items: center;
@@ -99,7 +167,6 @@ button:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important
   flex-shrink: 0;
 }
 
-/* ─── Header buttons ─────────────────────────────────────────────────────────── */
 .header-actions {
   display: flex;
   gap: 10px;
@@ -131,7 +198,6 @@ button:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important
   box-shadow: 0 0 22px rgba(34, 197, 94, 0.35);
 }
 
-/* ─── Stats row ──────────────────────────────────────────────────────────────── */
 .stats {
   display: flex;
   gap: 16px;
@@ -175,11 +241,6 @@ button:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important
   font-weight: 600;
 }
 
-/* ─── Problem list ───────────────────────────────────────────────────────────── */
-.problem-list {
-  /* section header */
-}
-
 .problem-list-header {
   display: flex;
   align-items: center;
@@ -200,7 +261,6 @@ button:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important
   color: var(--color-text-dim);
 }
 
-/* Table card wrapper */
 .problem-table-wrap {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -248,10 +308,6 @@ tbody tr:last-child td { border-bottom: none; }
 .status-solved   { color: var(--color-primary); font-weight: 600; }
 .status-unsolved { color: #2D3F55; font-weight: 500; }
 
-
-/* ════════════════════════════════════════════════════════════════════════════════
-   PROBLEM PAGE
-   ════════════════════════════════════════════════════════════════════════════════ */
 .problem-page {
   display: flex;
   flex-direction: column;
@@ -260,7 +316,6 @@ tbody tr:last-child td { border-bottom: none; }
   background: var(--color-bg);
 }
 
-/* ─── Top header bar ─────────────────────────────────────────────────────────── */
 .problem-header {
   display: flex;
   align-items: center;
@@ -295,20 +350,18 @@ tbody tr:last-child td { border-bottom: none; }
   color: var(--color-text);
 }
 
-/* ─── Split-pane layout ──────────────────────────────────────────────────────── */
 .problem-layout {
   display: flex;
   flex: 1;
   overflow: hidden;
 }
 
-/* Left pane: description */
 .problem-description {
   width: 42%;
   padding: 28px;
   overflow-y: auto;
   border-right: 1px solid var(--color-border);
-  background: #111827;
+  background: var(--color-bg);
 }
 .problem-description::-webkit-scrollbar { width: 5px; }
 .problem-description::-webkit-scrollbar-track { background: transparent; }
@@ -333,7 +386,6 @@ tbody tr:last-child td { border-bottom: none; }
   color: var(--color-text-muted);
 }
 
-/* Right pane: code editor */
 .code-panel {
   flex: 1;
   display: flex;
@@ -342,7 +394,6 @@ tbody tr:last-child td { border-bottom: none; }
   overflow: hidden;
 }
 
-/* ─── Editor toolbar ─────────────────────────────────────────────────────────── */
 .editor-toolbar {
   display: flex;
   align-items: center;
@@ -400,7 +451,6 @@ tbody tr:last-child td { border-bottom: none; }
   box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
 }
 
-/* ─── CodeMirror container ───────────────────────────────────────────────────── */
 .code-editor {
   flex: 1;
   overflow: auto;
@@ -416,7 +466,6 @@ tbody tr:last-child td { border-bottom: none; }
 .code-editor .cm-scroller { overflow: auto; }
 .code-editor .cm-focused  { outline: none; }
 
-/* ─── Results panel ──────────────────────────────────────────────────────────── */
 .results-panel {
   flex-shrink: 0;
   max-height: 270px;
@@ -468,7 +517,6 @@ tbody tr:last-child td { border-bottom: none; }
 }
 .verdict.fail::before { background: #F87171; }
 
-/* Test case rows */
 .test-case-result {
   display: flex;
   flex-direction: column;
@@ -502,7 +550,6 @@ tbody tr:last-child td { border-bottom: none; }
 .test-case-result .tc-detail { color: var(--color-text-dim); }
 .test-case-result .tc-error  { color: #F87171; }
 
-/* ─── Rating section ─────────────────────────────────────────────────────────── */
 .rating-section {
   margin-top: 14px;
   padding: 14px 16px;
@@ -564,10 +611,6 @@ tbody tr:last-child td { border-bottom: none; }
   font-weight: 500;
 }
 
-
-/* ════════════════════════════════════════════════════════════════════════════════
-   REVIEW QUEUE
-   ════════════════════════════════════════════════════════════════════════════════ */
 .review-queue {
   max-width: 900px;
   margin: 0 auto;
@@ -580,6 +623,7 @@ tbody tr:last-child td { border-bottom: none; }
   gap: 16px;
   margin-bottom: 40px;
 }
+.queue-header h1 { flex: 1; }
 
 .queue-section {
   margin-bottom: 36px;

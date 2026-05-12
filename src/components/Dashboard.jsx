@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { storage } from '../logic/db'
+import ThemeToggle from './ThemeToggle'
 
-function Dashboard({ userId, problems, onSelectProblem, onOpenQueue }) {
+function Dashboard({ userId, problems, onSelectProblem, onOpenQueue, theme, toggleTheme }) {
   // keeps track of titles of solved problems
   const [solvedTitles, setSolvedTitles] = useState(new Set())
 
@@ -39,6 +40,7 @@ function Dashboard({ userId, problems, onSelectProblem, onOpenQueue }) {
           <h1>Active ReCode</h1>
         </div>
         <div className="header-actions">
+          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
           <button className="queue-btn" onClick={onOpenQueue}>Review Queue</button>
           <button className="begin-btn" onClick={() => onSelectProblem(problems[0])}>Begin Studying</button>
         </div>

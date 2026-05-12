@@ -4,8 +4,9 @@ import { javascript } from '@codemirror/lang-javascript'
 import { runUserCode } from '../logic/codeRunner'
 import { storage } from '../logic/db'
 import { scheduler } from '../logic/scheduler'
+import ThemeToggle from './ThemeToggle'
 
-function ProblemPage({ problem, userId, onBack, reviewMode = false }) {
+function ProblemPage({ problem, userId, onBack, reviewMode = false, theme, toggleTheme }) {
   const [code, setCode] = useState(problem.starterCode)
   const [results, setResults] = useState(null)
   const [running, setRunning] = useState(false)
@@ -85,6 +86,7 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false }) {
         <button className="back-btn" onClick={handleBack}>Back</button>
         <h2>{problem.title}</h2>
         <span className={problem.difficulty.toLowerCase()}>{problem.difficulty}</span>
+        <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
       </div>
 
       <div className="problem-layout">
@@ -126,7 +128,7 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false }) {
             value={code}
             onChange={(val) => setCode(val)}
             extensions={[javascript()]}
-            theme="dark"
+            theme={theme}
             basicSetup={{
               lineNumbers: true,
               autocompletion: true,
