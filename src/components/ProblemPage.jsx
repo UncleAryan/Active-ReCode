@@ -178,7 +178,7 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false }) {
                   className={`test-case-result ${r.passed ? 'passed' : 'failed'}`}
                 >
                   <div className="tc-header">
-                    {r.passed ? 'Passed' : 'Failed'} — Test case {i + 1}
+                    {r.passed ? 'PASSED' : 'FAILED'} — Test case {i + 1}
                   </div>
 
                   {r.error ? (

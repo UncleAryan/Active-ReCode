@@ -77,8 +77,7 @@ function ReviewQueue({ userId, problems, onSelectProblem, onBack }) {
 
       {isEmpty ? (
         <div className="queue-empty">
-          <div className="queue-empty-title">All caught up</div>
-          No problems are due right now.
+          You're all caught up! No problems due right now.
         </div>
       ) : (
         <>
@@ -96,7 +95,7 @@ function ReviewQueue({ userId, problems, onSelectProblem, onBack }) {
                     <span className={`difficulty-chip ${problem.difficulty.toLowerCase()}`}>{problem.difficulty}</span>
                   </div>
                   <div className="queue-item-right">
-                    <span className="badge-due">Due</span>
+                    <span className="badge-due">DUE</span>
                     <span className="queue-chevron">›</span>
                   </div>
                 </div>
@@ -118,7 +117,7 @@ function ReviewQueue({ userId, problems, onSelectProblem, onBack }) {
                     <span className={`difficulty-chip ${problem.difficulty.toLowerCase()}`}>{problem.difficulty}</span>
                   </div>
                   <div className="queue-item-right">
-                    <span className="badge-new">New</span>
+                    <span className="badge-new">NEW</span>
                     <span className="queue-chevron">›</span>
                   </div>
                 </div>

@@ -21,7 +21,7 @@ const mockProblems = [
 
 test('renders the page title', () => {
   render(<Dashboard userId={1} problems={mockProblems} onSelectProblem={vi.fn()} />)
-  expect(screen.getByText('Code Trainer')).toBeInTheDocument()
+  expect(screen.getByText('Active ReCode')).toBeInTheDocument()
 })
 
 test('renders the Begin Studying button', () => {
