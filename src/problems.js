@@ -25,6 +25,7 @@ Constraints:
   • -10^9 <= nums[i] <= 10^9
   • Only one valid answer exists.`,
     functionName: "twoSum",
+    pythonFunctionName: "two_sum",
     testCases: [
       { input: "[2,7,11,15], 9", expected: [0, 1] },
       { input: "[3,2,4], 6", expected: [1, 2] },
@@ -34,6 +35,8 @@ Constraints:
   // Your solution here
 
 }`,
+    pythonStarterCode: `def two_sum(nums, target):
+    pass`,
     tags: ["array", "hash-table"],
   },
   {
@@ -60,6 +63,7 @@ Constraints:
   • 1 <= nums.length <= 10^5
   • -10^9 <= nums[i] <= 10^9`,
     functionName: "containsDuplicate",
+    pythonFunctionName: "contains_duplicate",
     testCases: [
       { input: "[1,2,3,1]", expected: true },
       { input: "[1,2,3,4]", expected: false },
@@ -69,6 +73,8 @@ Constraints:
   // Your solution here
 
 }`,
+    pythonStarterCode: `def contains_duplicate(nums):
+    pass`,
     tags: ["array", "hash-table"],
   },
   {
@@ -92,6 +98,7 @@ Constraints:
 Follow up:
   What if the inputs contain Unicode characters? How would you adapt your solution to such a case?`,
     functionName: "isAnagram",
+    pythonFunctionName: "is_anagram",
     testCases: [
       { input: `"anagram", "nagaram"`, expected: true },
       { input: `"rat", "car"`, expected: false },
@@ -100,6 +107,8 @@ Follow up:
   // Your solution here
 
 }`,
+    pythonStarterCode: `def is_anagram(s, t):
+    pass`,
     tags: ["array", "hash-table", "string"],
   },
   {
@@ -130,6 +139,7 @@ Constraints:
   • 1 <= s.length <= 2 * 10^5
   • s consists only of printable ASCII characters.`,
     functionName: "isPalindrome",
+    pythonFunctionName: "is_palindrome",
     testCases: [
       { input: `"A man, a plan, a canal: Panama"`, expected: true },
       { input: `"race a car"`, expected: false },
@@ -139,6 +149,8 @@ Constraints:
   // Your solution here
 
 }`,
+    pythonStarterCode: `def is_palindrome(s):
+    pass`,
     tags: ["string", "two-pointers"],
   },
   {
@@ -166,6 +178,7 @@ Constraints:
   • 1 <= prices.length <= 10^5
   • 0 <= prices[i] <= 10^4`,
     functionName: "maxProfit",
+    pythonFunctionName: "max_profit",
     testCases: [
       { input: "[7,1,5,3,6,4]", expected: 5 },
       { input: "[7,6,4,3,1]", expected: 0 },
@@ -174,6 +187,8 @@ Constraints:
   // Your solution here
 
 }`,
+    pythonStarterCode: `def max_profit(prices):
+    pass`,
     tags: ["array", "dynamic-programming"],
   },
   {
@@ -211,6 +226,7 @@ Constraints:
   • 1 <= s.length <= 10^4
   • s consists of parentheses only '()[]{}'.`,
     functionName: "isValid",
+    pythonFunctionName: "is_valid",
     testCases: [
       { input: `"()"`, expected: true },
       { input: `"()[]{}"`, expected: true },
@@ -222,6 +238,8 @@ Constraints:
   // Your solution here
 
 }`,
+    pythonStarterCode: `def is_valid(s):
+    pass`,
     tags: ["string", "stack"],
   },
   {
@@ -248,6 +266,7 @@ Constraints:
   • All the integers in nums are unique.
   • nums is sorted in ascending order.`,
     functionName: "search",
+    pythonFunctionName: "search",
     testCases: [
       { input: "[-1,0,3,5,9,12], 9", expected: 4 },
       { input: "[-1,0,3,5,9,12], 2", expected: -1 },
@@ -256,6 +275,8 @@ Constraints:
   // Your solution here
 
 }`,
+    pythonStarterCode: `def search(nums, target):
+    pass`,
     tags: ["array", "binary-search"],
   },
   {
@@ -284,6 +305,7 @@ Constraints:
   • 1 <= stones.length <= 30
   • 1 <= stones[i] <= 1000`,
     functionName: "lastStoneWeight",
+    pythonFunctionName: "last_stone_weight",
     testCases: [
       { input: "[2,7,4,1,8,1]", expected: 1 },
       { input: "[1]", expected: 1 },
@@ -292,6 +314,8 @@ Constraints:
   // Your solution here
 
 }`,
+    pythonStarterCode: `def last_stone_weight(stones):
+    pass`,
     tags: ["array", "heap", "priority-queue"],
   },
   {
@@ -320,6 +344,7 @@ Example 2:
 Constraints:
   • 1 <= n <= 45`,
     functionName: "climbStairs",
+    pythonFunctionName: "climb_stairs",
     testCases: [
       { input: "2", expected: 2 },
       { input: "3", expected: 3 },
@@ -328,6 +353,8 @@ Constraints:
   // Your solution here
 
 }`,
+    pythonStarterCode: `def climb_stairs(n):
+    pass`,
     tags: ["dynamic-programming", "math"],
   },
   {
@@ -357,6 +384,7 @@ Constraints:
 Follow up:
   If this function is called many times, how would you optimize it?`,
     functionName: "hammingWeight",
+    pythonFunctionName: "hamming_weight",
     testCases: [
       { input: "11", expected: 3 },
       { input: "128", expected: 1 },
@@ -366,6 +394,8 @@ Follow up:
   // Your solution here
 
 }`,
+    pythonStarterCode: `def hamming_weight(n):
+    pass`,
     tags: ["bit-manipulation"],
   },
 ];
