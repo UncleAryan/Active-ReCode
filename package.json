@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.5",
+    "@codemirror/lang-python": "^6.2.1",
     "@uiw/react-codemirror": "^4.25.9",
     "dexie": "^4.4.2",
     "pyodide": "^0.29.4",

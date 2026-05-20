@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import CodeMirror from '@uiw/react-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
-import { runUserCode } from '../logic/codeRunner'
+import { python } from '@codemirror/lang-python'
+import { runUserCode as runJS } from '../logic/codeRunner'
+import { runUserCode as runPython } from '../logic/pyRunner'
 import { storage } from '../logic/db'
 import { scheduler } from '../logic/scheduler'
 import ThemeToggle from './ThemeToggle'
 
 function ProblemPage({ problem, userId, onBack, reviewMode = false, theme, toggleTheme }) {
+  const [language, setLanguage] = useState('javascript')
   const [code, setCode] = useState(problem.starterCode)
+  const [pyReady, setPyReady] = useState(false)
   const [results, setResults] = useState(null)
   const [running, setRunning] = useState(false)
   const [rated, setRated] = useState(false)
@@ -20,17 +24,27 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false, theme, toggl
     })
   }, [])
 
+  function switchLanguage(lang) {
+    if (lang === language) return
+    setLanguage(lang)
+    setResults(null)
+    setPyReady(false)
+    setCode(lang === 'python' ? problem.pythonStarterCode : problem.starterCode)
+  }
+
   async function handleBack() {
     if (!reviewMode) await storage.saveDraft(userId, problem.title, code)
     onBack()
   }
 
   async function executeTests(testCases) {
+    const runner = language === 'python' ? runPython : runJS
+    const fnName = language === 'python' ? problem.pythonFunctionName : problem.functionName
     const output = []
     for (const testCase of testCases) {
-      const result = await runUserCode({
+      const result = await runner({
         userCode: code,
-        functionName: problem.functionName,
+        functionName: fnName,
         testInput: testCase.input,
         expectedOutput: testCase.expected,
       })
@@ -43,8 +57,10 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false, theme, toggl
   async function handleRun() {
     setRunning(true)
     setResults(null)
+    setPyReady(false)
 
     const cases = await executeTests(problem.testCases.slice(0, 2))
+    setPyReady(true)
     setResults({ type: 'run', cases })
     setRunning(false)
   }
@@ -55,10 +71,12 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false, theme, toggl
     setResults(null)
     setRated(false)
     setRatingError(false)
+    setPyReady(false)
 
     const cases = await executeTests(problem.testCases)
     const allPassed = cases.every(r => r.passed)
 
+    setPyReady(true)
     setResults({ type: 'submit', cases, allPassed })
     setRunning(false)
   }
@@ -101,10 +119,22 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false, theme, toggl
 
         <div className="code-panel">
           <div className="editor-toolbar">
-            <span className="lang-badge">
-              <span className="lang-dot"></span>
-              JavaScript
-            </span>
+            <div className="lang-toggle">
+              <button
+                className={`lang-toggle-btn${language === 'javascript' ? ' active' : ''}`}
+                onClick={() => switchLanguage('javascript')}
+              >
+                <span className="lang-dot js-dot"></span>
+                JavaScript
+              </button>
+              <button
+                className={`lang-toggle-btn${language === 'python' ? ' active' : ''}`}
+                onClick={() => switchLanguage('python')}
+              >
+                <span className="lang-dot py-dot"></span>
+                Python
+              </button>
+            </div>
             <div className="btn-group">
               <button
                 className="run-btn"
@@ -123,11 +153,17 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false, theme, toggl
             </div>
           </div>
 
+          {language === 'python' && running && !pyReady && (
+            <div className="py-init-notice">
+              Initializing Pyodide
+            </div>
+          )}
+
           <CodeMirror
             className="code-editor"
             value={code}
             onChange={(val) => setCode(val)}
-            extensions={[javascript()]}
+            extensions={language === 'python' ? [python()] : [javascript()]}
             theme={theme}
             basicSetup={{
               lineNumbers: true,
