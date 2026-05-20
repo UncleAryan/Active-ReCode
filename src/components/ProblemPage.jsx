@@ -19,21 +19,26 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false, theme, toggl
 
   useEffect(() => {
     if (reviewMode) return
-    storage.getDraft(userId, problem.title).then(draft => {
-      if (draft) setCode(draft.code)
+    storage.getLastDraft(userId, problem.title).then(draft => {
+      if (draft) {
+        setLanguage(draft.language)
+        setCode(draft.code)
+      }
     })
   }, [])
 
-  function switchLanguage(lang) {
+  async function switchLanguage(lang) {
     if (lang === language) return
+    if (!reviewMode) await storage.saveDraft(userId, problem.title, language, code)
+    const draft = await storage.getDraft(userId, problem.title, lang)
     setLanguage(lang)
     setResults(null)
     setPyReady(false)
-    setCode(lang === 'python' ? problem.pythonStarterCode : problem.starterCode)
+    setCode(draft ? draft.code : (lang === 'python' ? problem.pythonStarterCode : problem.starterCode))
   }
 
   async function handleBack() {
-    if (!reviewMode) await storage.saveDraft(userId, problem.title, code)
+    if (!reviewMode) await storage.saveDraft(userId, problem.title, language, code)
     onBack()
   }
 

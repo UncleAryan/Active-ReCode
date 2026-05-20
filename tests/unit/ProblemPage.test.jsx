@@ -8,8 +8,9 @@ vi.mock('../../src/logic/db', () => ({
     getChallenge: vi.fn().mockResolvedValue({ id: 1, title: 'Two Sum' }),
     getCard:      vi.fn().mockResolvedValue(null),
     addCard:      vi.fn().mockResolvedValue(),
-    getDraft:     vi.fn().mockResolvedValue(null),
-    saveDraft:    vi.fn().mockResolvedValue(),
+    getDraft:      vi.fn().mockResolvedValue(null),
+    getLastDraft:  vi.fn().mockResolvedValue(null),
+    saveDraft:     vi.fn().mockResolvedValue(),
   },
 }))
 

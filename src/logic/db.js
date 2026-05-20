@@ -22,6 +22,22 @@ db.version(3).stores({
   attempt_history: "++id, userId, challengeId, timestamp, solutionCode, rating"
 });
 
+db.version(4).stores({
+  cards: "++id, userId, challengeId, [userId+challengeId], fsrsCard, fsrsCard.due",
+  challenges: "++id, title, description, testCases, exampleSolution, functionName",
+  users: "++id, username, passwordHash",
+  drafts: null,
+  attempt_history: "++id, userId, challengeId, timestamp, solutionCode, rating"
+});
+
+db.version(5).stores({
+  cards: "++id, userId, challengeId, [userId+challengeId], fsrsCard, fsrsCard.due",
+  challenges: "++id, title, description, testCases, exampleSolution, functionName",
+  users: "++id, username, passwordHash",
+  drafts: "[userId+problemTitle+language], code, lastUsed",
+  attempt_history: "++id, userId, challengeId, timestamp, solutionCode, rating"
+});
+
 // legacy version of storage: no factory pattern
 export const storage = {
     // User management
@@ -82,11 +98,19 @@ export const storage = {
         return await db.challenges.toArray();
     },
     // Draft management
-    async saveDraft(userId, problemTitle, code) {
-        await db.drafts.put({ userId, problemTitle, code });
+    async saveDraft(userId, problemTitle, language, code) {
+        await db.drafts.put({ userId, problemTitle, language, code, lastUsed: Date.now() });
     },
-    async getDraft(userId, problemTitle) {
-        return await db.drafts.get({ userId, problemTitle });
+    async getDraft(userId, problemTitle, language) {
+        return await db.drafts.get({ userId, problemTitle, language });
+    },
+    async getLastDraft(userId, problemTitle) {
+        const drafts = await db.drafts
+            .where('[userId+problemTitle+language]')
+            .between([userId, problemTitle, Dexie.minKey], [userId, problemTitle, Dexie.maxKey])
+            .toArray();
+        if (!drafts.length) return null;
+        return drafts.reduce((a, b) => (a.lastUsed > b.lastUsed ? a : b));
     },
 
     // Attempt history management
