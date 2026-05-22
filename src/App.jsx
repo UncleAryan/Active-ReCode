@@ -57,6 +57,8 @@ function App() {
     setPage('problem')
   }
 
+  if (!dbReady) return null
+
   if (page === 'problem' && selectedProblem) {
     return (
       <ProblemPage
