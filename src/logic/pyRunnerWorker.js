@@ -19,7 +19,8 @@ self.onmessage = async function (e) {
         // python scripts don't have a return value the way function calls does, so temp var is needed to retrive result afterward
 
         pyodide.runPython(fullCode);
-        const actual = pyodide.globals.get('_result').toJs();
+        const raw = pyodide.globals.get('_result');
+        const actual = (raw?.toJs instanceof Function) ? raw.toJs() : raw;
         self.postMessage({ success: true, actual });
     } catch (err) {
         self.postMessage({ success: false, error: err.message });
