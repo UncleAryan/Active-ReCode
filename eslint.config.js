@@ -4,6 +4,18 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
+const vitestGlobals = {
+  describe: 'readonly',
+  it: 'readonly',
+  test: 'readonly',
+  expect: 'readonly',
+  beforeEach: 'readonly',
+  afterEach: 'readonly',
+  beforeAll: 'readonly',
+  afterAll: 'readonly',
+  vi: 'readonly',
+}
+
 export default defineConfig([
   globalIgnores(['dist']),
   {
@@ -24,6 +36,25 @@ export default defineConfig([
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+    },
+  },
+  {
+    files: ['tests/**/*.{js,jsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...vitestGlobals,
+      },
+    },
+  },
+  {
+    files: ['src/logic/*Worker.js'],
+    languageOptions: {
+      globals: {
+        ...globals.worker,
+        loadPyodide: 'readonly',
+      },
     },
   },
 ])
