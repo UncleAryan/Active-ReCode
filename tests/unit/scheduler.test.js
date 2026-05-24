@@ -11,7 +11,6 @@ vi.mock("../../src/logic/db.js", () => ({
 	},
 }));
 
-const nextMock = vi.fn();
 // Mock the ts-fsrs library
 // Important for preview function to work
 vi.mock("ts-fsrs", async (importOriginal) => {
@@ -35,14 +34,13 @@ vi.mock("ts-fsrs", async (importOriginal) => {
 import { scheduler } from "../../src/logic/scheduler.js";
 import { getFsrsCard } from "../../src/logic/scheduler.js";
 import { storage } from "../../src/logic/db.js";
-import { createEmptyCard, fsrs, FSRSVersion } from "ts-fsrs";
+import { FSRSVersion } from "ts-fsrs";
 import { _mockScheduler } from "ts-fsrs";
 import { Rating } from "ts-fsrs";
 
 const userId = "User1";
 const challengeId = "Challenge1";
 const existingCard = { id: "Card43", userId, challengeId };
-const emptyCard = { id: "", userId, challengeId };
 
 describe("Scheduler", () => {
 	beforeEach(() => {
