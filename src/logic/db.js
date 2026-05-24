@@ -82,7 +82,7 @@ export const storage = {
             await db.challenges.add({ title, description, testCases, exampleSolution, functionName });
         }
         else {
-            this.updateChallenge(title, { description, testCases, exampleSolution, functionName });
+            await this.updateChallenge(title, { description, testCases, exampleSolution, functionName });
         }
     },
     async getChallenge(name) {
