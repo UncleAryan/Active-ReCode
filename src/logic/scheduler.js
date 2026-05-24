@@ -39,14 +39,11 @@ export const scheduler = {
             throw new Error(`Invalid rating. Must be one of: ${Object.values(Rating).join(', ')}`);
         }
 
-        // Fetch the existing card for the user and challenge
-        const card = await this.getFsrsCard(userId, challengeId) ?? createEmptyCard();
-        // Run the FSRS algorithm to calculate the updated card based off the rating
+        const existingCard = await this.getFsrsCard(userId, challengeId);
+        const card = existingCard ?? createEmptyCard();
         const result = fsrsScheduler.next(card, now, rating);
 
-        // If the card exists update the rating
-        // if the card doesn't exist make a new card
-        if (card) {
+        if (existingCard) {
             await storage.updateCard(userId, challengeId, result.card);
         } else {
             await storage.addCard(userId, challengeId, result.card);
