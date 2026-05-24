@@ -25,6 +25,7 @@ function ProblemPage({ problem, userId, onBack, reviewMode = false, theme, toggl
         setCode(draft.code)
       }
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function switchLanguage(lang) {

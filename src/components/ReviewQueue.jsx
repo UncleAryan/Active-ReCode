@@ -50,7 +50,7 @@ function ReviewQueue({ userId, problems, onSelectProblem, onBack, theme, toggleT
     }
 
     if (userId) buildQueue()
-  }, [userId])
+  }, [userId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return <div className="loading">Loading queue...</div>
