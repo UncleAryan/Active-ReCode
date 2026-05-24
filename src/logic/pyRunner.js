@@ -4,7 +4,7 @@ export async function runUserCode({
   functionName,
   testInput,
   expectedOutput,
-  timeoutMs = 3000
+  timeoutMs = 15000
 }) {
   return new Promise((resolve) => {
     const startTime = performance.now();
