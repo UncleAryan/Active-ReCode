@@ -36,7 +36,6 @@ function Dashboard({ userId, problems, onSelectProblem, onOpenQueue, theme, togg
     <div className="dashboard">
       <div className="dashboard-header">
         <div className="app-brand">
-          <span className="app-brand-dot"></span>
           <h1>Active ReCode</h1>
         </div>
         <div className="header-actions">
