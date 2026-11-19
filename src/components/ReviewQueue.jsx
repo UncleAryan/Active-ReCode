@@ -87,20 +87,21 @@ function ReviewQueue({ userId, problems, onSelectProblem, onBack, theme, toggleT
             <div className="queue-section due">
               <div className="queue-section-title">Due for Review</div>
               {dueItems.map(problem => (
-                <div
+                <button
+                  type="button"
                   key={problem.title}
                   className="queue-item"
                   onClick={() => onSelectProblem(problem)}
                 >
-                  <div className="queue-item-left">
+                  <span className="queue-item-left">
                     <span className="queue-item-title">{problem.title}</span>
                     <span className={`difficulty-chip ${problem.difficulty.toLowerCase()}`}>{problem.difficulty}</span>
-                  </div>
-                  <div className="queue-item-right">
+                  </span>
+                  <span className="queue-item-right">
                     <span className="badge-due">DUE</span>
-                    <span className="queue-chevron">›</span>
-                  </div>
-                </div>
+                    <span className="queue-chevron" aria-hidden="true">›</span>
+                  </span>
+                </button>
               ))}
             </div>
           )}
@@ -109,20 +110,21 @@ function ReviewQueue({ userId, problems, onSelectProblem, onBack, theme, toggleT
             <div className="queue-section new">
               <div className="queue-section-title">New Problems</div>
               {newItems.map(problem => (
-                <div
+                <button
+                  type="button"
                   key={problem.title}
                   className="queue-item"
                   onClick={() => onSelectProblem(problem)}
                 >
-                  <div className="queue-item-left">
+                  <span className="queue-item-left">
                     <span className="queue-item-title">{problem.title}</span>
                     <span className={`difficulty-chip ${problem.difficulty.toLowerCase()}`}>{problem.difficulty}</span>
-                  </div>
-                  <div className="queue-item-right">
+                  </span>
+                  <span className="queue-item-right">
                     <span className="badge-new">NEW</span>
-                    <span className="queue-chevron">›</span>
-                  </div>
-                </div>
+                    <span className="queue-chevron" aria-hidden="true">›</span>
+                  </span>
+                </button>
               ))}
             </div>
           )}

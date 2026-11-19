@@ -5,6 +5,7 @@
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import { vi } from 'vitest'
+import userEvent from '@testing-library/user-event'
 import Dashboard from '../../src/components/Dashboard'
 
 // mock db to return fake data so we can test the data rather than using real data
@@ -67,4 +68,13 @@ test('shows Not Solved status for unsolved problem', async () => {
   await waitFor(() => {
     expect(screen.getByText('Not Solved')).toBeInTheDocument()
   })
+})
+
+test('a problem row can be opened from the keyboard', async () => {
+  const onSelectProblem = vi.fn()
+  render(<Dashboard userId={1} problems={mockProblems} onSelectProblem={onSelectProblem} />)
+  screen.getByRole('button', { name: 'Two Sum' }).focus()
+  await userEvent.keyboard('{Enter}')
+  expect(onSelectProblem).toHaveBeenCalledTimes(1)
+  expect(onSelectProblem).toHaveBeenCalledWith(mockProblems[0])
 })

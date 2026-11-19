@@ -80,7 +80,8 @@ function Dashboard({ userId, problems, onSelectProblem, onOpenQueue, theme, togg
                     className="problem-row"
                     onClick={() => onSelectProblem(p)}
                   >
-                    <td>{p.title}</td>
+                    {/* no onClick: keyboard Enter/Space fires a click that bubbles to the row handler */}
+                    <td><button type="button" className="problem-title-btn">{p.title}</button></td>
                     <td>
                       <span className={`difficulty-chip ${p.difficulty.toLowerCase()}`}>
                         {p.difficulty}
